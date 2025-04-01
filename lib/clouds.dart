@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
-import 'package:flutter/painting.dart';
 
 class Clouds extends PositionComponent {
   final List<String> cloudImages = ['cloud.png'];

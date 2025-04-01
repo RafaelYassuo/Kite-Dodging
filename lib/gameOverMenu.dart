@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 
 class GameOverMenu extends PositionComponent {
@@ -17,7 +16,7 @@ class GameOverMenu extends PositionComponent {
     add(
       RectangleComponent(
         size: size,
-        paint: Paint()..color = Color(0x80000000),
+        paint: Paint()..color = const Color(0x80000000),
       ),
     );
 

@@ -1,7 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 
 import 'game.dart';
@@ -76,7 +75,7 @@ class Player extends SpriteComponent
 
     add(effect);
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       sprite = idleSprite;
     });
   }

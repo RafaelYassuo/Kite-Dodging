@@ -47,6 +47,20 @@ class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
     return;
   }
 
+  bool get canSpawnNewBoxes {
+    // Se não há pipas na tela, pode spawnar novas
+    if (children.whereType<BoxStack>().isEmpty) return true;
+
+    // Verifica se todas as pipas existentes já percorreram pelo menos metade da tela
+    for (final boxStack in children.whereType<BoxStack>()) {
+      if (boxStack.position.x > size.x / 2) {
+        // Alterado gameRef.size.x para size.x
+        return false;
+      }
+    }
+    return true;
+  }
+
   void gameover() {
     FlameAudio.bgm.stop();
     pauseEngine();
@@ -60,7 +74,7 @@ class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void restartGame() {
-    speed = 500;
+    speed = 300;
     score = 0;
     scoreText.text = 'Score: $score';
 
@@ -83,16 +97,15 @@ class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
     speed += 10 * dt;
     _timeSinceBox += dt;
 
-    if (_timeSinceBox > _boxInterval) {
-      add(BoxStack(isBottom: random.nextBool()));
+    if (_timeSinceBox > _boxInterval && canSpawnNewBoxes) {
+      add(BoxStack());
       _timeSinceBox = 0;
     }
 
     for (final boxStack in children.whereType<BoxStack>()) {
       if (!_passedBoxStacks.contains(boxStack) &&
           player.position.x > boxStack.position.x + boxStack.width) {
-        // O jogador passou pelo BoxStack
-        _passedBoxStacks.add(boxStack); // Marca o BoxStack como contabilizado
+        _passedBoxStacks.add(boxStack);
         updateScore();
       }
     }
@@ -116,7 +129,7 @@ class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Game Over',
               style: TextStyle(
                 color: Colors.white,
@@ -124,21 +137,21 @@ class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Score: $score',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 24,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 overlays.remove('GameOver');
                 restartGame();
               },
-              child: Text('Restart'),
+              child: const Text('Restart'),
             ),
           ],
         ),
