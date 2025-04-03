@@ -9,14 +9,14 @@ class City extends PositionComponent {
     'ed4.png',
     'ed5.png'
   ];
-  final double speed;
+  double speed;
   final double yOffset;
   final double spacing;
   late List<SpriteComponent> _citySprites;
   double _totalWidth = 0;
 
   City({
-    this.speed = 100,
+    this.speed = 80,
     this.yOffset = 20,
     this.spacing = -40,
   });
@@ -52,6 +52,7 @@ class City extends PositionComponent {
     super.update(dt);
 
     for (final sprite in _citySprites) {
+      speed += 0.2 * dt;
       sprite.position.x -= speed * dt;
 
       if (sprite.position.x + sprite.width < 0) {

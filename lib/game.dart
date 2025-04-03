@@ -10,7 +10,8 @@ import 'package:flame_audio/flame_audio.dart';
 import 'sky.dart';
 import 'boxstack.dart';
 
-class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
+class KiteDodging extends FlameGame
+    with TapDetector, HasCollisionDetection, HasGameRef<KiteDodging> {
   late final Player player;
   int score = 0;
   late TextComponent scoreText;
@@ -94,7 +95,8 @@ class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
   @override
   void update(double dt) {
     super.update(dt);
-    speed += 10 * dt;
+    gameRef.size.x <= 500 ? speed * 0.6 : speed += 10 * dt;
+
     _timeSinceBox += dt;
 
     if (_timeSinceBox > _boxInterval && canSpawnNewBoxes) {
@@ -120,8 +122,8 @@ class KiteDodging extends FlameGame with TapDetector, HasCollisionDetection {
   Widget buildGameoverMenu(BuildContext context) {
     return Center(
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.35,
-        height: MediaQuery.of(context).size.height * 0.55,
+        width: 250,
+        height: 300,
         decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.8),
           borderRadius: BorderRadius.circular(20),
